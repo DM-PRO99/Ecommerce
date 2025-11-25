@@ -69,8 +69,11 @@ const cartStoreCreator: StateCreator<CartState> = (set, get) => ({
 });
 
 export const useCartStore = create<CartState>()(
-  persist<CartState>(cartStoreCreator, {
-    name: "ecommerce-cart",
-    partialize: (state: CartState) => ({ items: state.items }),
-  }),
+  persist(
+    cartStoreCreator,
+    {
+      name: "ecommerce-cart",
+      partialize: (state: CartState) => ({ items: state.items }),
+    }
+  ),
 );

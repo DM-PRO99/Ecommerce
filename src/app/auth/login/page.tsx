@@ -6,6 +6,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
+import type { ButtonProps } from '@/components/ui/button';
 
 export default function LoginPage() {
   const [identifier, setIdentifier] = useState('');
@@ -142,7 +143,7 @@ export default function LoginPage() {
             <Button
               type="submit"
               disabled={isLoading}
-              variant="primary"
+              variant={"primary" as const}
               className="w-full justify-center text-sm"
             >
               {isLoading ? 'Iniciando sesión...' : 'Iniciar sesión'}

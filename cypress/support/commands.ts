@@ -1,3 +1,15 @@
+/// <reference types="cypress" />
+
+declare global {
+  namespace Cypress {
+    interface Chainable<Subject> {
+      login(email?: string, password?: string): Chainable<Subject>;
+      addProduct(product: { name: string; price: number; quantity: number; reference: string; imageUrl: string }): Chainable<Subject>;
+      deleteProduct(reference: string): Chainable<Subject>;
+    }
+  }
+}
+
 // ***********************************************
 // This example commands.ts shows you how to
 // create various custom commands and overwrite
@@ -32,11 +44,11 @@
 // }
 
 // Custom command for login
-Cypress.Commands.add('login', (email: string, password: string) => {
+Cypress.Commands.add('login', (email?: string, password?: string) => {
   cy.session([email, password], () => {
     cy.visit('/auth/login');
-    cy.get('input[name="email"]').type(email);
-    cy.get('input[name="password"]').type(password);
+    cy.get('input[name="email"]').type(email || '');
+    cy.get('input[name="password"]').type(password || '');
     cy.get('button[type="submit"]').click();
     // Wait for the login to complete and redirect to dashboard
     cy.url().should('include', '/dashboard');
@@ -82,3 +94,5 @@ Cypress.Commands.add('deleteProduct', (reference: string) => {
   // Verify the product was deleted
   cy.get('div[role="alert"]').should('contain', 'Product deleted successfully');
 });
+
+export {}

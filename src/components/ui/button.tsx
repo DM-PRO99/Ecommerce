@@ -4,7 +4,7 @@ import { Button as HeroUIButton } from "@heroui/react";
 import { cn } from "@/lib/utils";
 import type { ComponentProps } from "react";
 
-export type ButtonProps = ComponentProps<typeof HeroUIButton> & {
+export type ButtonProps = Omit<ComponentProps<typeof HeroUIButton>, 'variant'> & {
   variant?: "primary" | "secondary" | "ghost";
 };
 
