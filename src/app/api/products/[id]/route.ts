@@ -1,20 +1,22 @@
-import { NextResponse } from 'next/server';
+import { NextResponse, NextRequest } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth-options';
 import dbConnect from '@/db/connect';
 import Product from '@/models/Product';
 
-interface Params {
-  params: {
-    id: string;
-  };
+interface RouteContext {
+  params: Promise<{ id: string }>;
 }
 
-export async function GET(request: Request, { params }: Params) {
+export async function GET(
+  request: NextRequest,
+  { params }: RouteContext
+) {
   try {
     await dbConnect();
     
-    const product = await Product.findById(params.id);
+    const { id } = await params;
+    const product = await Product.findById(id);
     
     if (!product) {
       return NextResponse.json(
@@ -33,7 +35,10 @@ export async function GET(request: Request, { params }: Params) {
   }
 }
 
-export async function PUT(request: Request, { params }: Params) {
+export async function PUT(
+  request: NextRequest,
+  { params }: RouteContext
+) {
   const session = await getServerSession(authOptions);
   
   if (!session) {
@@ -46,11 +51,12 @@ export async function PUT(request: Request, { params }: Params) {
   try {
     await dbConnect();
     
+    const { id } = await params;
     const body = await request.json();
     
     // Check if another product with the same reference exists
     const existingProduct = await Product.findOne({
-      _id: { $ne: params.id },
+      _id: { $ne: id },
       reference: body.reference
     });
     
@@ -62,7 +68,7 @@ export async function PUT(request: Request, { params }: Params) {
     }
     
     const product = await Product.findByIdAndUpdate(
-      params.id,
+      id,
       body,
       { new: true, runValidators: true }
     );
@@ -96,7 +102,10 @@ export async function PUT(request: Request, { params }: Params) {
   }
 }
 
-export async function DELETE(request: Request, { params }: Params) {
+export async function DELETE(
+  request: NextRequest,
+  { params }: RouteContext
+) {
   const session = await getServerSession(authOptions);
   
   if (!session) {
@@ -109,7 +118,8 @@ export async function DELETE(request: Request, { params }: Params) {
   try {
     await dbConnect();
     
-    const product = await Product.findByIdAndDelete(params.id);
+    const { id } = await params;
+    const product = await Product.findByIdAndDelete(id);
     
     if (!product) {
       return NextResponse.json(
