@@ -1,0 +1,64 @@
+{
+  "app": {
+    "title": "E-commerce Dashboard",
+    "description": "Manage your products and catalog from a single place"
+  },
+  "navigation": {
+    "languageSwitchLabel": "Language",
+    "languageEnglish": "English",
+    "languageSpanish": "Spanish"
+  },
+  "productForm": {
+    "titleAdd": "Add New Product",
+    "titleEdit": "Edit Product",
+    "subtitleAdd": "Fill in the details to add a new product.",
+    "subtitleEdit": "Update the product details below.",
+    "nameLabel": "Product Name",
+    "nameError": "Name is required",
+    "referenceLabel": "Reference",
+    "priceLabel": "Price",
+    "priceCurrency": "$",
+    "quantityLabel": "Quantity",
+    "imageLabel": "Product Image",
+    "imageUpload": "Upload",
+    "imageChange": "Change",
+    "cancel": "Cancel",
+    "submitCreate": "Add Product",
+    "submitUpdate": "Update Product",
+    "saving": "Saving..."
+  },
+  "dashboard": {
+    "nav": {
+      "brand": "E-Commerce Admin",
+      "goToDashboard": "Go to dashboard",
+      "signIn": "Sign in",
+      "signUp": "Create account",
+      "signOut": "Sign out",
+      "notifications": "View notifications",
+      "openMenu": "Open user menu"
+    },
+    "title": "Dashboard",
+    "subtitle": "Welcome to your admin panel",
+    "userInfo": {
+      "title": "User information",
+      "subtitle": "Details about your account.",
+      "name": "Name",
+      "email": "Email",
+      "missingName": "Not available",
+      "missingEmail": "Not available"
+    },
+    "recentProducts": {
+      "title": "Recent products",
+      "subtitle": "Latest items added to your catalog.",
+      "viewAll": "View all",
+      "emptyTitle": "You don't have products yet",
+      "emptyDescription": "Upload your first product to see it in the dashboard.",
+      "emptyCta": "Create product",
+      "reference": "Reference",
+      "price": "Price",
+      "stock": "Stock",
+      "viewDetails": "View details"
+    }
+  }
+}
+

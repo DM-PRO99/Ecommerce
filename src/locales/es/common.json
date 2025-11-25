@@ -1,0 +1,64 @@
+{
+  "app": {
+    "title": "Panel de E-commerce",
+    "description": "Administra tus productos y catálogo en un solo lugar"
+  },
+  "navigation": {
+    "languageSwitchLabel": "Idioma",
+    "languageEnglish": "Inglés",
+    "languageSpanish": "Español"
+  },
+  "productForm": {
+    "titleAdd": "Agregar nuevo producto",
+    "titleEdit": "Editar producto",
+    "subtitleAdd": "Completa los datos para agregar un nuevo producto.",
+    "subtitleEdit": "Actualiza la información del producto.",
+    "nameLabel": "Nombre del producto",
+    "nameError": "El nombre es obligatorio",
+    "referenceLabel": "Referencia",
+    "priceLabel": "Precio",
+    "priceCurrency": "$",
+    "quantityLabel": "Cantidad",
+    "imageLabel": "Imagen del producto",
+    "imageUpload": "Subir",
+    "imageChange": "Cambiar",
+    "cancel": "Cancelar",
+    "submitCreate": "Agregar producto",
+    "submitUpdate": "Actualizar producto",
+    "saving": "Guardando..."
+  },
+  "dashboard": {
+    "nav": {
+      "brand": "Administrador E-commerce",
+      "goToDashboard": "Ir al dashboard",
+      "signIn": "Iniciar sesión",
+      "signUp": "Crear cuenta",
+      "signOut": "Cerrar sesión",
+      "notifications": "Ver notificaciones",
+      "openMenu": "Abrir menú de usuario"
+    },
+    "title": "Dashboard",
+    "subtitle": "Bienvenido a tu panel de administración",
+    "userInfo": {
+      "title": "Información del usuario",
+      "subtitle": "Detalles de tu cuenta.",
+      "name": "Nombre",
+      "email": "Correo electrónico",
+      "missingName": "No disponible",
+      "missingEmail": "No disponible"
+    },
+    "recentProducts": {
+      "title": "Productos recientes",
+      "subtitle": "Últimos artículos agregados a tu catálogo.",
+      "viewAll": "Ver todos",
+      "emptyTitle": "Aún no tienes productos",
+      "emptyDescription": "Sube tu primer producto para que aparezca en el dashboard.",
+      "emptyCta": "Crear producto",
+      "reference": "Referencia",
+      "price": "Precio",
+      "stock": "Stock",
+      "viewDetails": "Ver detalle"
+    }
+  }
+}
+
