@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { Trash2, ArrowRight } from "lucide-react";
+import { Trash2, ArrowRight, X, ShoppingCart } from "lucide-react";
 
 import { useCartStore } from "@/store/cart";
 import { Button } from "@/components/ui/button";
@@ -29,37 +29,60 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
     <Sheet open={open} onClose={onClose}>
       <div className="flex h-full flex-col">
         <header className="flex items-center justify-between border-b border-zinc-200 px-6 py-4 backdrop-blur-md">
-          <div>
-            <h2 className="text-sm font-semibold tracking-tight text-zinc-900">Carrito</h2>
-            <p className="text-xs text-zinc-500">Revisa y finaliza tu pedido</p>
+          <div className="flex items-center gap-3">
+            <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-indigo-100">
+              <ShoppingCart className="h-4 w-4 text-indigo-600" />
+            </div>
+            <div>
+              <h2 className="text-sm font-semibold tracking-tight text-zinc-900">Carrito</h2>
+              <p className="text-xs text-zinc-500">Revisa y finaliza tu pedido</p>
+            </div>
           </div>
-          {hasItems && (
+          <div className="flex items-center gap-2">
+            {hasItems && (
+              <button
+                type="button"
+                onClick={clearCart}
+                className="text-xs text-zinc-500 hover:text-zinc-900 transition-colors"
+              >
+                Vaciar
+              </button>
+            )}
             <button
               type="button"
-              onClick={clearCart}
-              className="text-xs text-zinc-500 hover:text-zinc-900"
+              onClick={onClose}
+              className="rounded-full p-1 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-600 transition-all"
             >
-              Vaciar
+              <X className="h-5 w-5" />
             </button>
-          )}
+          </div>
         </header>
 
         <div className="flex-1 space-y-3 overflow-y-auto px-4 py-4">
           {!hasItems && (
             <div className="text-center py-12">
               <div className="inline-flex items-center justify-center w-12 h-12 bg-zinc-100 rounded-full mb-4">
-                <svg className="h-6 w-6 text-zinc-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                </svg>
+                <ShoppingCart className="h-6 w-6 text-zinc-400" />
               </div>
               <p className="text-sm text-zinc-500 mb-4">Tu carrito está vacío.</p>
-              <Button
-                variant="ghost"
-                onClick={onClose}
-                className="text-sm"
-              >
-                Seguir comprando
-              </Button>
+              <div className="space-y-2">
+                <Button
+                  onClick={() => {
+                    onClose();
+                    router.push('/products');
+                  }}
+                  className="w-full px-4 py-2 text-sm font-medium bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition-colors"
+                >
+                  Descubrir productos
+                </Button>
+                <Button
+                  variant="ghost"
+                  onClick={onClose}
+                  className="w-full text-sm"
+                >
+                  Seguir navegando
+                </Button>
+              </div>
             </div>
           )}
 
@@ -116,15 +139,30 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
               <span>Total</span>
               <span>${(subtotal + (subtotal > 0 ? 9.99 : 0) + (subtotal * 0.21)).toFixed(2)}</span>
             </div>
-            <Button 
-              className="w-full" 
-              onClick={handleCheckout}
-            >
-              <span className="flex items-center justify-center">
-                Proceder al checkout
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </span>
-            </Button>
+            <div className="space-y-2">
+              <Button 
+                className="w-full" 
+                onClick={handleCheckout}
+              >
+                <span className="flex items-center justify-center">
+                  Proceder al checkout
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </span>
+              </Button>
+              <Button
+                variant="ghost"
+                onClick={() => {
+                  onClose();
+                  router.push('/products');
+                }}
+                className="w-full border border-zinc-200/50 bg-white/50 backdrop-blur-sm hover:bg-zinc-50"
+              >
+                <span className="flex items-center justify-center">
+                  <ShoppingCart className="mr-2 h-4 w-4" />
+                  Seguir comprando
+                </span>
+              </Button>
+            </div>
           </footer>
         )}
       </div>
