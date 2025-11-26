@@ -1,7 +1,9 @@
+"use client";
+
 import { getLatestProducts } from '@/lib/products';
 import { LandingNav } from '@/components/dashboard/LandingNav';
 import { ProductCard } from '@/components/store/ProductCard';
-import { ProductsClient } from '../../../components/products/ProductsClient';
+import { ProductsClient } from '@/components/products/ProductsClient';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth-options';
 
