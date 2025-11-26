@@ -61,19 +61,65 @@ export default function CheckoutPage() {
     setIsLoading(true);
 
     try {
-      // Simulate order processing
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // Here you would normally:
-      // 1. Create order in database
-      // 2. Process payment
-      // 3. Send confirmation email
-      // 4. Clear cart
+      // Create order payload
+      const orderPayload = {
+        userEmail: formData.email,
+        items: items.map(item => ({
+          productId: item._id,
+          name: item.name,
+          reference: item.reference,
+          quantity: item.cartQuantity,
+          price: item.price
+        })),
+        shippingInfo: {
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          phone: formData.phone,
+          address: formData.address,
+          city: formData.city,
+          state: formData.state,
+          zipCode: formData.zipCode,
+          country: formData.country
+        },
+        paymentInfo: {
+          cardName: formData.cardName,
+          cardNumber: formData.cardNumber,
+          cardExpiry: formData.cardExpiry,
+          cardCvc: formData.cardCvc
+        },
+        subtotal,
+        shipping,
+        tax,
+        total
+      };
+
+      console.log('Submitting order:', orderPayload);
+
+      // Create order in database
+      const response = await fetch('/api/orders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(orderPayload),
+      });
+
+      if (!response.ok) {
+        throw new Error('Error processing order');
+      }
+
+      const orderData = await response.json();
+      console.log('Order created:', orderData);
+
+      // Simulate payment processing delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
       
       setOrderComplete(true);
       clearCart();
     } catch (error) {
       console.error('Error processing order:', error);
+      alert('Hubo un error al procesar tu pedido. Por favor, inténtalo de nuevo.');
     } finally {
       setIsLoading(false);
     }
