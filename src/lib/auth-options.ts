@@ -2,6 +2,7 @@ import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import { DefaultSession, NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import EmailProvider from "next-auth/providers/email";
+import GoogleProvider from "next-auth/providers/google";
 import { MongoClient } from 'mongodb';
 import bcrypt from 'bcryptjs';
 
@@ -38,6 +39,18 @@ export const authOptions: NextAuthOptions = {
     error: '/auth/error',
   },
   providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      authorization: {
+        params: {
+          prompt: "consent",
+          access_type: "offline",
+          response_type: "code",
+          scope: "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile"
+        }
+      }
+    }),
     EmailProvider({
       server: {
         host: process.env.EMAIL_HOST,
