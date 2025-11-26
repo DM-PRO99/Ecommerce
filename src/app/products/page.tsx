@@ -13,3 +13,5 @@ export default async function ProductsPage() {
     <ProductsClient session={session} products={products} />
   );
 }
+
+// Force redeploy to clear Vercel cache
