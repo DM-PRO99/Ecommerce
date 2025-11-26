@@ -1,7 +1,8 @@
 "use client";
 
 import { useMemo } from "react";
-import { Trash2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Trash2, ArrowRight } from "lucide-react";
 
 import { useCartStore } from "@/store/cart";
 import { Button } from "@/components/ui/button";
@@ -15,8 +16,14 @@ interface CartDrawerProps {
 
 export function CartDrawer({ open, onClose }: CartDrawerProps) {
   const { items, subtotal, removeItem, clearCart } = useCartStore();
+  const router = useRouter();
 
   const hasItems = useMemo(() => items.length > 0, [items]);
+
+  const handleCheckout = () => {
+    onClose();
+    router.push('/checkout');
+  };
 
   return (
     <Sheet open={open} onClose={onClose}>
@@ -39,7 +46,21 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
 
         <div className="flex-1 space-y-3 overflow-y-auto px-4 py-4">
           {!hasItems && (
-            <p className="text-sm text-zinc-500">Tu carrito está vacío.</p>
+            <div className="text-center py-12">
+              <div className="inline-flex items-center justify-center w-12 h-12 bg-zinc-100 rounded-full mb-4">
+                <svg className="h-6 w-6 text-zinc-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                </svg>
+              </div>
+              <p className="text-sm text-zinc-500 mb-4">Tu carrito está vacío.</p>
+              <Button
+                variant="ghost"
+                onClick={onClose}
+                className="text-sm"
+              >
+                Seguir comprando
+              </Button>
+            </div>
           )}
 
           {items.map((item) => (
@@ -73,17 +94,39 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
           ))}
         </div>
 
-        <footer className="border-t border-zinc-200 bg-white/80 px-6 py-4 backdrop-blur-md">
-          <div className="mb-3 flex items-center justify-between text-sm">
-            <span className="text-zinc-500">Subtotal</span>
-            <span className="font-semibold text-zinc-900">
-              ${subtotal.toFixed(2)}
-            </span>
-          </div>
-          <Button className="w-full" disabled={!hasItems} onClick={onClose}>
-            Continuar al checkout
-          </Button>
-        </footer>
+        {hasItems && (
+          <footer className="border-t border-zinc-200 bg-white/80 px-6 py-4 backdrop-blur-md">
+            <div className="mb-3 flex items-center justify-between text-sm">
+              <span className="text-zinc-500">Subtotal</span>
+              <span className="font-semibold text-zinc-900">
+                ${subtotal.toFixed(2)}
+              </span>
+            </div>
+            <div className="mb-4 space-y-2">
+              <div className="flex items-center justify-between text-xs text-zinc-500">
+                <span>Envío</span>
+                <span>${subtotal > 0 ? '9.99' : '0.00'}</span>
+              </div>
+              <div className="flex items-center justify-between text-xs text-zinc-500">
+                <span>IVA (21%)</span>
+                <span>${(subtotal * 0.21).toFixed(2)}</span>
+              </div>
+            </div>
+            <div className="flex items-center justify-between text-sm font-semibold text-zinc-900 mb-4 pt-2 border-t border-zinc-200">
+              <span>Total</span>
+              <span>${(subtotal + (subtotal > 0 ? 9.99 : 0) + (subtotal * 0.21)).toFixed(2)}</span>
+            </div>
+            <Button 
+              className="w-full" 
+              onClick={handleCheckout}
+            >
+              <span className="flex items-center justify-center">
+                Proceder al checkout
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </span>
+            </Button>
+          </footer>
+        )}
       </div>
     </Sheet>
   );

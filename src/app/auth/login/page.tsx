@@ -4,6 +4,7 @@ import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import Link from 'next/link';
+import { Eye, EyeOff, Mail, Lock, User, ArrowRight, Sparkles } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import type { ButtonProps } from '@/components/ui/button';
@@ -11,6 +12,7 @@ import type { ButtonProps } from '@/components/ui/button';
 export default function LoginPage() {
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [magicEmail, setMagicEmail] = useState('');
@@ -30,12 +32,12 @@ export default function LoginPage() {
       });
 
       if (result?.error) {
-        setError('Invalid credentials');
+        setError('Credenciales inválidas. Por favor, inténtalo de nuevo.');
       } else {
         router.push('/dashboard');
       }
     } catch (error) {
-      setError('An error occurred. Please try again.');
+      setError('Ocurrió un error. Por favor, inténtalo de nuevo.');
     } finally {
       setIsLoading(false);
     }
@@ -48,132 +50,184 @@ export default function LoginPage() {
 
     try {
       const result = await signIn('email', {
-        email: magicEmail,
         redirect: false,
+        email: magicEmail,
       });
 
       if (result?.error) {
-        setError('No se pudo enviar el enlace. Revisa el correo ingresado.');
+        setError('Error al enviar el enlace mágico. Por favor, verifica tu email.');
       } else {
         setMagicSent(true);
       }
-    } catch (err) {
-      setError('Ocurrió un error al enviar el enlace. Inténtalo de nuevo.');
+    } catch (error) {
+      setError('Error al enviar el enlace mágico. Por favor, inténtalo de nuevo.');
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Inicia sesión en tu cuenta
-          </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            ¿Aún no tienes cuenta?{' '}
-            <Link href="/auth/register" className="font-medium text-indigo-600 hover:text-indigo-500">
-              Crea una nueva
-            </Link>
-          </p>
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-zinc-50 flex items-center justify-center p-4">
+      {/* Background decoration */}
+      <div className="absolute inset-0 bg-grid-pattern opacity-[0.02]" />
+      <div className="absolute top-0 left-0 h-96 w-96 bg-gradient-radial from-indigo-500/10 to-transparent blur-3xl" />
+      <div className="absolute bottom-0 right-0 h-96 w-96 bg-gradient-radial from-purple-500/10 to-transparent blur-3xl" />
+      
+      <div className="relative w-full max-w-md">
+        {/* Logo/Brand */}
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-600 to-indigo-500 shadow-xl mb-4">
+            <Sparkles className="w-8 h-8 text-white" />
+          </div>
+          <h1 className="text-3xl font-bold text-zinc-900 mb-2">Bienvenido de nuevo</h1>
+          <p className="text-zinc-600">Inicia sesión para acceder a tu dashboard</p>
         </div>
-        
-        {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-            <span className="block sm:inline">{error}</span>
-          </div>
-        )}
 
-        {/* Login con usuario/correo + contraseña */}
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="rounded-md shadow-sm -space-y-px">
+        {/* Login Form */}
+        <div className="bg-white/80 backdrop-blur-xl rounded-3xl border border-zinc-200/50 shadow-2xl shadow-zinc-900/5 p-8">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Email Field */}
             <div>
-              <label htmlFor="email-address" className="sr-only">
-                Email o usuario
+              <label className="block text-sm font-medium text-zinc-700 mb-2">
+                Email o Nombre de Usuario
               </label>
-              <input
-                id="identifier"
-                name="identifier"
-                type="text"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Email o usuario"
-                value={identifier}
-                onChange={(e) => setIdentifier(e.target.value)}
-              />
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <User className="h-5 w-5 text-zinc-400" />
+                </div>
+                <input
+                  type="text"
+                  value={identifier}
+                  onChange={(e) => setIdentifier(e.target.value)}
+                  className="block w-full pl-10 pr-3 py-3 border border-zinc-300 rounded-xl bg-white/50 backdrop-blur-sm text-zinc-900 placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                  placeholder="tu@email.com"
+                  required
+                />
+              </div>
             </div>
+
+            {/* Password Field */}
             <div>
-              <label htmlFor="password" className="sr-only">
-                Password
+              <label className="block text-sm font-medium text-zinc-700 mb-2">
+                Contraseña
               </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="current-password"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Lock className="h-5 w-5 text-zinc-400" />
+                </div>
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="block w-full pl-10 pr-10 py-3 border border-zinc-300 rounded-xl bg-white/50 backdrop-blur-sm text-zinc-900 placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                  placeholder="••••••••"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                >
+                  {showPassword ? (
+                    <EyeOff className="h-5 w-5 text-zinc-400 hover:text-zinc-600 transition-colors" />
+                  ) : (
+                    <Eye className="h-5 w-5 text-zinc-400 hover:text-zinc-600 transition-colors" />
+                  )}
+                </button>
+              </div>
             </div>
-          </div>
 
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <input
-                id="remember-me"
-                name="remember-me"
-                type="checkbox"
-                className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-              />
-              <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
-                Remember me
-              </label>
-            </div>
+            {/* Error Message */}
+            {error && (
+              <div className="rounded-xl bg-red-50/80 backdrop-blur-sm border border-red-200/50 p-4">
+                <p className="text-sm text-red-600">{error}</p>
+              </div>
+            )}
 
-            <div className="text-sm">
-              <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
-                Forgot your password?
-              </a>
-            </div>
-          </div>
-
-          <div>
+            {/* Submit Button */}
             <Button
               type="submit"
               disabled={isLoading}
-              variant={"primary" as const}
-              className="w-full justify-center text-sm"
+              className="w-full py-3 text-base font-semibold shadow-lg shadow-indigo-500/25 transition-all duration-300 hover:shadow-xl hover:shadow-indigo-500/30 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isLoading ? 'Iniciando sesión...' : 'Iniciar sesión'}
+              {isLoading ? (
+                <span className="flex items-center justify-center">
+                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Iniciando sesión...
+                </span>
+              ) : (
+                <span className="flex items-center justify-center">
+                  Iniciar sesión
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </span>
+              )}
             </Button>
-          </div>
-        </form>
 
-        {/* Login con enlace mágico al correo */}
-        <div className="mt-8 border-t border-gray-200 pt-6">
-          <p className="mb-3 text-center text-xs text-gray-500">
-            O bien, recibe un enlace mágico en tu correo
-          </p>
-          <form className="space-y-3" onSubmit={handleMagicLink}>
-            <input
-              type="email"
-              required
-              className="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              placeholder="tu-correo@ejemplo.com"
-              value={magicEmail}
-              onChange={(e) => setMagicEmail(e.target.value)}
-            />
-            <Button type="submit" variant="ghost" className="w-full justify-center text-sm">
-              Enviar enlace mágico
-            </Button>
+            {/* Forgot Password */}
+            <div className="text-center">
+              <a href="#" className="text-sm text-indigo-600 hover:text-indigo-500 font-medium transition-colors">
+                ¿Olvidaste tu contraseña?
+              </a>
+            </div>
           </form>
-          {magicSent && (
-            <p className="mt-2 text-center text-xs text-emerald-600">
-              Hemos enviado un enlace de inicio de sesión a tu correo.
+
+          {/* Divider */}
+          <div className="relative my-8">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-zinc-200/50" />
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-4 bg-white text-zinc-500">o continúa con</span>
+            </div>
+          </div>
+
+          {/* Magic Link */}
+          <div className="text-center">
+            <p className="text-sm text-zinc-600 mb-4">
+              ¿Prefieres sin contraseña? Envía un enlace mágico a tu email
             </p>
-          )}
+            {!magicSent ? (
+              <form onSubmit={handleMagicLink} className="space-y-4">
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <Mail className="h-5 w-5 text-zinc-400" />
+                  </div>
+                  <input
+                    type="email"
+                    value={magicEmail}
+                    onChange={(e) => setMagicEmail(e.target.value)}
+                    className="block w-full pl-10 pr-3 py-3 border border-zinc-300 rounded-xl bg-white/50 backdrop-blur-sm text-zinc-900 placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                    placeholder="tu@email.com"
+                    required
+                  />
+                </div>
+                <Button
+                  type="submit"
+                  variant="ghost"
+                  className="w-full py-3 text-base font-semibold border border-zinc-200/50 bg-white/50 backdrop-blur-sm hover:bg-zinc-50 transition-all"
+                >
+                  Enviar enlace mágico
+                </Button>
+              </form>
+            ) : (
+              <div className="rounded-xl bg-green-50/80 backdrop-blur-sm border border-green-200/50 p-4">
+                <p className="text-sm text-green-600">
+                  ✅ Enlace mágico enviado! Revisa tu email.
+                </p>
+              </div>
+            )}
+          </div>
+
+          {/* Sign Up Link */}
+          <div className="text-center pt-6 border-t border-zinc-200/50">
+            <p className="text-sm text-zinc-600">
+              ¿No tienes cuenta?{' '}
+              <Link href="/auth/register" className="text-indigo-600 hover:text-indigo-500 font-semibold transition-colors">
+                Regístrate gratis
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
     </div>
