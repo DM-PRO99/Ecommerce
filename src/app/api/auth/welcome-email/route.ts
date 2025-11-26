@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Configurar transporter de nodemailer
+    // Configurar transporter de nodemailer - FIXED METHOD NAME
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST || 'smtp.gmail.com',
       port: parseInt(process.env.SMTP_PORT || '587'),
