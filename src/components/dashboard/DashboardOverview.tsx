@@ -17,7 +17,8 @@ import {
   Plus,
   Eye,
   Edit,
-  Trash2
+  Trash2,
+  Store
 } from 'lucide-react';
 
 import type { ProductSummary } from '@/lib/products';
@@ -62,6 +63,13 @@ export function DashboardOverview({ session, products }: DashboardOverviewProps)
               </p>
             </div>
             <div className="flex items-center gap-3">
+              <Link 
+                href="/products"
+                className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl font-medium shadow-lg shadow-purple-500/25 hover:shadow-xl hover:shadow-purple-500/30 transition-all duration-300 hover:scale-[1.02]"
+              >
+                <Store className="h-4 w-4 mr-2" />
+                Ver Tienda
+              </Link>
               <Link 
                 href="/dashboard/products/new"
                 className="inline-flex items-center px-4 py-2 bg-indigo-600 text-white rounded-xl font-medium shadow-lg shadow-indigo-500/25 hover:shadow-xl hover:shadow-indigo-500/30 transition-all duration-300 hover:scale-[1.02]"
@@ -137,6 +145,58 @@ export function DashboardOverview({ session, products }: DashboardOverviewProps)
             </div>
             <h3 className="text-2xl font-bold text-zinc-900">{stats.totalProducts}</h3>
             <p className="text-sm text-zinc-600 mt-1">Productos totales</p>
+          </div>
+        </div>
+
+        {/* Quick Actions */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          {/* Store Card */}
+          <Link href="/products" className="group">
+            <div className="bg-gradient-to-br from-purple-600 to-indigo-600 rounded-2xl border border-purple-200/50 shadow-xl shadow-purple-500/25 p-6 hover:shadow-2xl hover:shadow-purple-500/30 transition-all duration-300 hover:scale-[1.02]">
+              <div className="flex items-center justify-between mb-4">
+                <div className="p-3 bg-white/20 backdrop-blur-sm rounded-xl">
+                  <Store className="h-6 w-6 text-white" />
+                </div>
+                <div className="flex items-center text-white text-sm font-medium">
+                  <ArrowUpRight className="h-4 w-4 mr-1" />
+                  Explorar
+                </div>
+              </div>
+              <h3 className="text-xl font-bold text-white mb-2">Ver Tienda</h3>
+              <p className="text-sm text-purple-100">Explora el catálogo completo de productos y gestiona tu inventario</p>
+            </div>
+          </Link>
+
+          {/* Products Card */}
+          <Link href="/dashboard/products/new" className="group">
+            <div className="bg-white/80 backdrop-blur-xl rounded-2xl border border-zinc-200/50 shadow-xl shadow-zinc-900/5 p-6 hover:shadow-2xl hover:shadow-zinc-900/10 transition-all duration-300 hover:scale-[1.02]">
+              <div className="flex items-center justify-between mb-4">
+                <div className="p-3 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-xl">
+                  <Package className="h-6 w-6 text-white" />
+                </div>
+                <div className="flex items-center text-indigo-600 text-sm font-medium">
+                  <ArrowUpRight className="h-4 w-4 mr-1" />
+                  Crear
+                </div>
+              </div>
+              <h3 className="text-xl font-bold text-zinc-900 mb-2">Nuevo Producto</h3>
+              <p className="text-sm text-zinc-600">Agrega nuevos productos a tu catálogo</p>
+            </div>
+          </Link>
+
+          {/* Orders Card */}
+          <div className="bg-white/80 backdrop-blur-xl rounded-2xl border border-zinc-200/50 shadow-xl shadow-zinc-900/5 p-6 hover:shadow-2xl hover:shadow-zinc-900/10 transition-all duration-300 hover:scale-[1.02]">
+            <div className="flex items-center justify-between mb-4">
+              <div className="p-3 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl">
+                <ShoppingCart className="h-6 w-6 text-white" />
+              </div>
+              <div className="flex items-center text-green-600 text-sm font-medium">
+                <ArrowUpRight className="h-4 w-4 mr-1" />
+                {stats.ordersGrowth}%
+              </div>
+            </div>
+            <h3 className="text-xl font-bold text-zinc-900 mb-2">{stats.totalOrders} Pedidos</h3>
+            <p className="text-sm text-zinc-600">Gestiona los pedidos recientes</p>
           </div>
         </div>
 
