@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import Link from "next/link";
 
 export function Hero() {
   return (
@@ -39,19 +40,23 @@ export function Hero() {
           
           {/* CTA Buttons */}
           <div className="flex flex-wrap items-center gap-4">
-            <Button 
-              variant="primary" 
-              className="group relative overflow-hidden px-8 py-4 text-sm font-semibold md:text-base shadow-lg shadow-indigo-500/25 transition-all duration-300 hover:shadow-xl hover:shadow-indigo-500/30 hover:scale-[1.02]"
-            >
-              <span className="relative z-10">Ver colección de relojes</span>
-              <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-indigo-500 opacity-0 transition-opacity group-hover:opacity-100" />
-            </Button>
-            <Button 
-              variant="ghost" 
-              className="px-8 py-4 text-sm font-semibold md:text-base border border-zinc-200/50 bg-white/50 backdrop-blur-sm transition-all duration-300 hover:bg-zinc-50 hover:border-zinc-300 hover:shadow-md"
-            >
-              Explorar tecnología
-            </Button>
+            <Link href="/products">
+              <Button 
+                variant="primary" 
+                className="group relative overflow-hidden px-8 py-4 text-sm font-semibold md:text-base shadow-lg shadow-indigo-500/25 transition-all duration-300 hover:shadow-xl hover:shadow-indigo-500/30 hover:scale-[1.02]"
+              >
+                <span className="relative z-10">Ver colección de relojes</span>
+                <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-indigo-500 opacity-0 transition-opacity group-hover:opacity-100" />
+              </Button>
+            </Link>
+            <Link href="/products">
+              <Button 
+                variant="ghost" 
+                className="px-8 py-4 text-sm font-semibold md:text-base border border-zinc-200/50 bg-white/50 backdrop-blur-sm transition-all duration-300 hover:bg-zinc-50 hover:border-zinc-300 hover:shadow-md"
+              >
+                Explorar tecnología
+              </Button>
+            </Link>
           </div>
           
           {/* Trust indicators */}
