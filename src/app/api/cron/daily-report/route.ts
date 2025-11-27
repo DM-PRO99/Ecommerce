@@ -3,6 +3,8 @@ import { NextResponse } from 'next/server';
 import dbConnect from '@/db/connect';
 import Order from '@/models/Order';
 
+export const runtime = 'nodejs';
+
 export async function GET() {
   try {
     await dbConnect();

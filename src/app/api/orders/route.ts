@@ -4,6 +4,8 @@ import nodemailer from 'nodemailer';
 import dbConnect from '@/db/connect';
 import Order from '@/models/Order';
 
+export const runtime = 'nodejs';
+
 interface OrderItemPayload {
   productId: string;
   name: string;

@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import dbConnect from '@/db/connect';
 import User from '@/models/User';
 
+export const runtime = 'nodejs';
+
 export async function POST(request: Request) {
   console.log('=== NEW REGISTRATION ATTEMPT ===');
   
