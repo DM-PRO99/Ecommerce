@@ -12,6 +12,23 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const missingEnvVars = ['SMTP_USER', 'SMTP_PASS'].filter((key) => !process.env[key]);
+
+    if (missingEnvVars.length > 0) {
+      console.warn(
+        'Omitiendo envío de bienvenida por falta de credenciales SMTP:',
+        missingEnvVars,
+      );
+
+      return NextResponse.json(
+        {
+          message:
+            'Email de bienvenida omitido porque faltan credenciales SMTP en el entorno.',
+        },
+        { status: 200 },
+      );
+    }
+
     // Configurar transporter de nodemailer - VERCEL CACHE CLEAR v2.0
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST || 'smtp.gmail.com',
