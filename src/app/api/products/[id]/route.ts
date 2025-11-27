@@ -4,6 +4,8 @@ import { authOptions } from '@/lib/auth-options';
 import dbConnect from '@/db/connect';
 import Product from '@/models/Product';
 
+export const runtime = 'nodejs';
+
 interface RouteContext {
   params: Promise<{ id: string }>;
 }

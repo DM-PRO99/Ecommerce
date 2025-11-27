@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import type { ComponentProps } from "react";
 
 export type ButtonProps = Omit<ComponentProps<typeof HeroUIButton>, 'variant'> & {
-  variant?: "primary" | "secondary" | "ghost";
+  variant?: "primary" | "secondary" | "ghost" | "outline";
 };
 
 export function Button({ className, variant = "primary", ...props }: ButtonProps) {
@@ -16,6 +16,8 @@ export function Button({ className, variant = "primary", ...props }: ButtonProps
       "bg-zinc-900 text-white hover:bg-zinc-800 shadow-sm hover:shadow-xl disabled:opacity-60",
     ghost:
       "bg-white text-zinc-900 border border-zinc-200 hover:bg-zinc-50 hover:shadow-md disabled:opacity-60",
+    outline:
+      "bg-transparent text-zinc-700 border border-zinc-300 hover:bg-zinc-50 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 focus-visible:ring-offset-2 disabled:opacity-60",
   } as const;
 
   return (

@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Configurar transporter de nodemailer
+// Configurar transporter de nodemailer - VERCEL CACHE CLEAR v2.0
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST || 'smtp.gmail.com',
       port: parseInt(process.env.SMTP_PORT || '587'),

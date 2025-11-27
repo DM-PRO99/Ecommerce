@@ -28,7 +28,7 @@ export default async function Home() {
               </p>
             </div>
             <Link href="/products">
-              <Button variant="outline" className="border-zinc-300 text-zinc-700 hover:bg-zinc-50">
+              <Button variant="ghost" className="border-zinc-300 text-zinc-700 hover:bg-zinc-50">
                 Ver todos los productos →
               </Button>
             </Link>
