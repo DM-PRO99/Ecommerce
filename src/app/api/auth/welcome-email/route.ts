@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
+export const runtime = 'nodejs';
+
 export async function POST(request: NextRequest) {
   try {
     const { email } = await request.json();
@@ -12,8 +14,25 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const missingEnvVars = ['SMTP_USER', 'SMTP_PASS'].filter((key) => !process.env[key]);
+
+    if (missingEnvVars.length > 0) {
+      console.warn(
+        'Omitiendo envío de bienvenida por falta de credenciales SMTP:',
+        missingEnvVars,
+      );
+
+      return NextResponse.json(
+        {
+          message:
+            'Email de bienvenida omitido porque faltan credenciales SMTP en el entorno.',
+        },
+        { status: 200 },
+      );
+    }
+
     // Configurar transporter de nodemailer
-    const transporter = nodemailer.createTransporter({
+    const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST || 'smtp.gmail.com',
       port: parseInt(process.env.SMTP_PORT || '587'),
       secure: false,
